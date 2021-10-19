@@ -2,11 +2,13 @@
 @section('title','Category')
 @push('css')
   <!-- DataTables -->
-  <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+{{--  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css">--}}
+{{--  <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">--}}
+{{--  <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">--}}
+{{--  <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">--}}
 @endpush
 @section('admin_content')
+
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css">
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -48,23 +50,26 @@
                     </thead>
                     <tbody>
 
-{{--                   @foreach($data as $key=>$row) 	--}}
-{{--                    <tr>--}}
-{{--                      <td>{{ $key+1 }}</td>--}}
-{{--                      <td>{{ $row->category_name }}</td>--}}
-{{--                      <td>{{ $row->category_slug }}</td>--}}
+                   @foreach($categories as $key=>$category)
+                    <tr>
+                      <td>{{ $key+1 }}</td>
+                      <td>{{ $category->name }}</td>
+                      <td>{{ $category->slug}}</td>
 {{--                      <td><img src="{{ asset($row->icon) }}" height="32" width="32"></td>--}}
 {{--                      <td>--}}
 {{--                         @if($row->home_page==1)--}}
 {{--                           <span class="badge badge-success">Home Page</span>--}}
 {{--                         @endif   --}}
 {{--                      </td>--}}
-{{--                      <td>--}}
-{{--                      	<a href="#" class="btn btn-info btn-sm edit" data-id="{{ $row->id }}" data-toggle="modal" data-target="#editModal" ><i class="fas fa-edit"></i></a>--}}
-{{--                      	<a href="{{ route('category.delete',$row->id) }}" class="btn btn-danger btn-sm" id="delete"><i class="fas fa-trash"></i></a>--}}
-{{--                      </td>--}}
-{{--                    </tr>--}}
-{{--                   @endforeach	--}}
+                      <td>
+                      	<a href="#" class="btn btn-info btn-sm edit" data-id="{{ $category->id }}" data-toggle="modal" data-target="#editModal" ><i class="fas fa-edit"></i></a>
+
+
+                          <a href="{{ route('admin.category.destroy',$category->id) }}" class="btn btn-danger btn-sm" id="delete"><i class="fas fa-trash"></i></a>
+
+                      </td>
+                    </tr>
+                   @endforeach
                     </tbody>
                   </table>
                 </div>
@@ -85,17 +90,17 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="" method="Post" enctype="multipart/form-data">
+      <form action="{{route('admin.category.store')}}" method="Post" enctype="multipart/form-data">
       	@csrf
       <div class="modal-body">
           <div class="form-group">
             <label for="category_name">Category Name</label>
-            <input type="text" class="form-control" id="category_name" name="category_name" required="">
+            <input type="text" class="form-control" id="category_name" name="name" required="">
             <small id="emailHelp" class="form-text text-muted">This is your main category</small>
           </div>
           <div class="form-group">
             <label for="category_name">Category Icon</label>
-            <input type="file" class="dropify" id="icon" name="icon" required="">
+            <input type="file" class="dropify" id="icon" name="icon" >
           </div>
           <div class="form-group">
             <label for="category_name">Show on Homepage</label>
@@ -139,46 +144,49 @@
   $('.dropify').dropify();
 
 </script>
-
 <script type="text/javascript">
-	$('body').on('click','.edit', function(){
-		let cat_id=$(this).data('id');
-		$.get("category/edit/"+cat_id, function(data){
-			 $("#modal_body").html(data);
-		});
-	});
+    $('body').on('click','.edit', function(){
+        let cat_id=$(this).data('id');
+        $.get("/admin/category/edit/"+cat_id, function(data){
+            $("#modal_body").html(data);
+        });
+    });
 
 </script>
-@push('js')
-    <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 
-    <script src="{{asset('backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-    <script src="{{ asset('backend/plugins/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-    <script>
-        $(function () {
-            $("#example1").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
-        });
-    </script>
+@push('js')
+{{--    <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>--}}
+{{--    <script src="{{ asset('backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>--}}
+{{--    <script src="{{ asset('backend/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>--}}
+{{--    <script src="{{ asset('backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>--}}
+{{--    <script src="{{ asset('backend/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>--}}
+
+{{--    <script src="{{asset('backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>--}}
+{{--    <script src="{{ asset('backend/plugins/jszip/jszip.min.js') }}"></script>--}}
+{{--    <script src="{{ asset('backend/plugins/pdfmake/pdfmake.min.js') }}"></script>--}}
+{{--    <script src="{{ asset('backend/plugins/pdfmake/vfs_fonts.js') }}"></script>--}}
+{{--    <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>--}}
+{{--    <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>--}}
+{{--    <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>--}}
+
+
+{{--    <script>--}}
+{{--        $(function () {--}}
+{{--            $("#example1").DataTable({--}}
+{{--                "responsive": true, "lengthChange": false, "autoWidth": false,--}}
+{{--                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]--}}
+{{--            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');--}}
+{{--            $('#example2').DataTable({--}}
+{{--                "paging": true,--}}
+{{--                "lengthChange": false,--}}
+{{--                "searching": false,--}}
+{{--                "ordering": true,--}}
+{{--                "info": true,--}}
+{{--                "autoWidth": false,--}}
+{{--                "responsive": true,--}}
+{{--            });--}}
+{{--        });--}}
+{{--    </script>--}}
+
 @endpush
 @endsection

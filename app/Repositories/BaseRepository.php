@@ -23,7 +23,7 @@ class BaseRepository implements InterfaceRepository
      * @param $attributes
      * @return Model
      */
-    public function update($id, $attributes): Model
+    public function update($id, $attributes)
     {
         return $this->model->where(['id' => $id])->update($attributes);
     }

@@ -11,7 +11,7 @@ interface InterfaceRepository
 
     public function create($attributes): Model;
 
-    public function update($id, $attributes): Model;
+    public function update($id, $attributes);
 
     public function destroy($id): bool;
 

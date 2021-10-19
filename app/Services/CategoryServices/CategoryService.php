@@ -19,7 +19,7 @@ class CategoryService implements InterfaceCategoryService
     public function getCategoryOfIndex()
     {
 
-        return $categories = $this->interfaceCategory->all();
+        return $categories = $this->interfaceCategory->get();
     }
 
     public function createCategory($request)
@@ -27,23 +27,29 @@ class CategoryService implements InterfaceCategoryService
         // TODO: Implement createCategory() method.
         return $categories = $this->interfaceCategory->create([
             'name' => $request->name,
-            'slug' => Str::slug($request->slug),
+            'slug' => Str::slug($request->name),
         ]);
 
 
     }
+    public  function  getCategorytId($id)
+    {
+        return $this->interfaceCategory->find($id);
 
+    }
 
     public function updateCategory($id, $request)
     {
-        return $category = $this->interfaceCategory->update($id, [
+        $category = $this->interfaceCategory->update($id, [
             'name' => $request->name,
-            'slug' => Str::slug($request->slug),
+            'slug' => Str::slug($request->name),
         ]);
+        return $category;
     }
 
     public function deleteCategory($id)
     {
+
         // TODO: Implement deleteCategory() method.
         return $category = $this->interfaceCategory->destroy($id);
     }

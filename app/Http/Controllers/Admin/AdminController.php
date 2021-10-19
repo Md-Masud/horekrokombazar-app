@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+
     private $userService;
 
     public function __construct(UserServiceInterface $userService)
