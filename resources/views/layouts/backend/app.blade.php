@@ -87,25 +87,58 @@
 <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
-<script>
-    $(document).on("click", "#delete", function(e){
-        e.preventDefault();
-        var link = $(this).attr("href");
+{{--<script>--}}
+{{--    $(document).on("click", "#delete", function(e){--}}
+{{--        e.preventDefault();--}}
+{{--        var link = $(this).attr("href");--}}
+{{--        swal({--}}
+{{--            title: "Are you Want to delete?",--}}
+{{--            text: "Once Delete, This will be Permanently Delete!",--}}
+{{--            icon: "warning",--}}
+{{--            buttons: true,--}}
+{{--            dangerMode: true,--}}
+{{--        })--}}
+{{--            .then((willDelete) => {--}}
+{{--                if (willDelete) {--}}
+{{--                    window.location.href = link;--}}
+{{--                } else {--}}
+{{--                    swal("Safe Data!");--}}
+{{--                }--}}
+{{--            });--}}
+{{--    });--}}
+{{--</script>--}}
+<script src="https://unpkg.com/sweetalert2@7.19.1/dist/sweetalert2.all.js"></script>
+<script type="text/javascript">
+    function deleteId(id) {
         swal({
-            title: "Are you Want to delete?",
-            text: "Once Delete, This will be Permanently Delete!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                event.preventDefault();
+                document.getElementById('delete-form-'+id).submit();
+            } else if (
+                // Read more about handling dismissals
+                result.dismiss === swal.DismissReason.cancel
+            ) {
+                swal(
+                    'Cancelled',
+                    'Your data is safe :)',
+                    'error'
+                )
+            }
         })
-            .then((willDelete) => {
-                if (willDelete) {
-                    window.location.href = link;
-                } else {
-                    swal("Safe Data!");
-                }
-            });
-    });
+    }
 </script>
 {{-- before  logout showing alert message --}}
 <script>
@@ -160,38 +193,6 @@
         // Summernote
         $('.textarea').summernote()
     })
-</script>
-<script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('backend/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('backend/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-
-<script src="{{asset('backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('backend/plugins/jszip/jszip.min.js') }}"></script>
-<script src="{{ asset('backend/plugins/pdfmake/pdfmake.min.js') }}"></script>
-<script src="{{ asset('backend/plugins/pdfmake/vfs_fonts.js') }}"></script>
-<script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-
-
-<script>
-    $(function () {
-        $("#example1").DataTable({
-            "responsive": true, "lengthChange": false, "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-        });
-    });
 </script>
 
 @stack('js')

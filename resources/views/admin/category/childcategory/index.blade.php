@@ -1,5 +1,12 @@
-@extends('layouts.admin')
-
+@extends('layouts.backend.app')
+@section('title','Category')
+@push('css')
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css">
+    <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+@endpush
 @section('admin_content')
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -11,7 +18,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"> + Add New</button>
+              <button class="btn btn-primary" data-toggle="modal" data-target="#categoryModal"> + Add New</button>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -40,7 +47,8 @@
                     </thead>
                     <tbody>
 
-                  
+
+
                     </tbody>
                   </table>
                 </div>
@@ -52,63 +60,21 @@
 </div>
 
 {{-- category insert modal --}}
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add New Child Category</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+  <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          @include('admin.category.childcategory.form')
       </div>
-     <form action="{{ route('childcategory.store') }}" method="Post" id="add-form">
-      @csrf
-      <div class="modal-body">
-      	  <div class="form-group">
-            <label for="category_name">Category/Subcategory </label>
-            <select class="form-control" name="subcategory_id" required="">
-            	@foreach($category as $row)
-                  @php 
-                    $subcat=DB::table('subcategories')->where('category_id',$row->id)->get();
-                  @endphp
-                  <option disabled="" style="color: blue;"
-                  >{{ $row->category_name }}</option>
-                  @foreach($subcat as $row)
-            	        <option value="{{ $row->id }}"> ---- {{ $row->subcategory_name }}</option>
-                  @endforeach    
-            	@endforeach
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="category_name">Child Category Name</label>
-            <input type="text" class="form-control"  name="childcategory_name" required="">
-            <small id="emailHelp" class="form-text text-muted">This is your childcategory category</small>
-          </div>   
-      </div>
-      <div class="modal-footer">
-        <button type="Submit" class="btn btn-primary"> <span class="d-none"> loading..... </span>  Submit</button>
-      </div>
-      </form>
-    </div>
   </div>
-</div>
 
 {{-- edit modal --}}
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Child Category</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+  {{-- edit modal --}}
+  <div class="modal fade" id="ditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div id="modal">
+          </div>
       </div>
-     <div id="modal_body">
-     		
-     </div>	
-    </div>
   </div>
-</div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -118,12 +84,12 @@
 		var table=$('.ytable').DataTable({
 			processing:true,
 			serverSide:true,
-			ajax:"{{ route('childcategory.index') }}",
+			ajax:"{{ route('admin.childcategory.index') }}",
 			columns:[
 				{data:'DT_RowIndex',name:'DT_RowIndex'},
-				{data:'childcategory_name'  ,name:'childcategory_name'},
-				{data:'category_name',name:'category_name'},
-				{data:'subcategory_name',name:'subcategory_name'},
+				{data:'name'  ,name:'name'},
+                {data: 'category_name', name: 'category_name'},
+				  {data:'sub_category_name',name:'sub_category_name'},
 				{data:'action',name:'action',orderable:true, searchable:true},
 
 			]
@@ -132,12 +98,48 @@
 
 
   $('body').on('click','.edit', function(){
-    let id=$(this).data('id');
-    $.get("childcategory/edit/"+id, function(data){
-        $("#modal_body").html(data);
+    let chlid_id=$(this).data('id');
+    $.get("{{ route('admin.childcategory.index') }}" + '/' +chlid_id+ '/edit', function(data){
+     $("#modal").html(data)
     });
   });
 
 </script>
+
+  @push('js')
+      <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+      <script src="{{ asset('backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+      <script src="{{ asset('backend/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+      <script src="{{ asset('backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+      <script src="{{ asset('backend/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+
+      <script src="{{asset('backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+      <script src="{{ asset('backend/plugins/jszip/jszip.min.js') }}"></script>
+      <script src="{{ asset('backend/plugins/pdfmake/pdfmake.min.js') }}"></script>
+      <script src="{{ asset('backend/plugins/pdfmake/vfs_fonts.js') }}"></script>
+      <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+      <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+      <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
+
+      <script>
+          $(function () {
+              $("#example1").DataTable({
+                  "responsive": true, "lengthChange": false, "autoWidth": false,
+                  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+              }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+              $('#example2').DataTable({
+                  "paging": true,
+                  "lengthChange": false,
+                  "searching": false,
+                  "ordering": true,
+                  "info": true,
+                  "autoWidth": false,
+                  "responsive": true,
+              });
+          });
+      </script>
+
+  @endpush
 
 @endsection

@@ -24,22 +24,32 @@ class SubCategoryService implements InterfaceSubCategoryService
     {
         // TODO: Implement createSubCategory() method.
         return $this->subCategoryRepository->create([
+            'category_id'=>$request->category_id,
             'name'=>$request->name,
             'slug'=>Str::slug($request->name),
-        ])->category()->associate($request->category_id);
+        ]);
+
     }
     public  function  getSubCategorytId($id)
     {
-        return $this->subCategoryRepository($id);
+        return $this->subCategoryRepository->find($id);
 
     }
+    public  function  getSubCategoryt($id)
+    {
+        return $this->subCategoryRepository->where('category_id',$id)->get();
+
+    }
+
     public function updateSubCategory($id, $request)
     {
         // TODO: Implement updateSubCategory() method.
+
         return $this->subCategoryRepository->update($id,[
+            'category_id'=>$request->category_id,
             'name'=>$request->name,
             'slug'=>Str::slug($request->name),
-        ])->category()->associate($request->category_id);
+        ]);
     }
 
     public function deleteSubCategory($id)

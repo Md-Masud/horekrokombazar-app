@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 use App\Repositories\Admin\CategoryRepository;
+use App\Repositories\Admin\ChildCategoryRepository;
 use App\Repositories\Admin\InterfaceCategory;
+use App\Repositories\Admin\InterfaceChildCategory;
 use App\Repositories\Admin\InterfaceSubCategoryRepository;
 use App\Repositories\Admin\SubCategoryRepository;
 use App\Repositories\BaseRepository;
@@ -11,6 +13,8 @@ use App\Repositories\UserInterfaceRepository;
 use App\Repositories\UserRepository;
 use App\Services\CategoryServices\CategoryService;
 use App\Services\CategoryServices\InterfaceCategoryService;
+use App\Services\ChildCategoryServices\ChildCategoryService;
+use App\Services\ChildCategoryServices\InterfaceChildCategoryService;
 use App\Services\SubCategoryServices\InterfaceSubCategoryService;
 use App\Services\SubCategoryServices\SubCategoryService;
 use App\Services\UserServices\UserService;
@@ -33,6 +37,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceCategoryService::class,CategoryService::class);
         $this->app->bind(InterfaceSubCategoryRepository::class,SubCategoryRepository::class);
         $this->app->bind(InterfaceSubCategoryService::class,SubCategoryService::class);
+       $this->app->bind(InterfaceChildCategory::class,ChildCategoryRepository::class);
+       $this->app->bind(InterfaceChildCategoryService::class,ChildCategoryService::class);
 
     }
 

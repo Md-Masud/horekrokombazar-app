@@ -6,8 +6,13 @@ Route::group(['middleware'=>['auth', 'is_admin'],'as'=>'admin.','prefix'=>'admin
     Route::get('logout','AdminController@logout')->name('logout');
     Route::get('password/change','AdminController@PasswordChange')->name('password.change');
     Route::post('password/update','AdminController@UpdatePassword')->name('update.password');
+    //category Route
     Route::resource('category','CategoryController');
-    Route::get('category/edit/{id}','CategoryController@edit');
+    //Subcategory
+    Route::resource('subcategory','SubCategoryController');
+    //childcategory
+    Route::resource('childcategory','ChildCategoryController');
+    Route::get('cat',[App\Http\Controllers\Admin\ChildCategoryController::class,'cat']);
+
 });
 
-//Route::get('admin/login',[App\Http\Controllers\HomeController::class, 'adminLogin']);

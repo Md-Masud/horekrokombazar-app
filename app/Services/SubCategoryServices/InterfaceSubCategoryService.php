@@ -13,4 +13,7 @@ interface InterfaceSubCategoryService
     public function  updateSubCategory($id,$request);
 
     public  function  deleteSubCategory($id);
+    public  function  getSubCategoryt($id);
+
+
 }

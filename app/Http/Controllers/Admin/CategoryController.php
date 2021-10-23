@@ -25,24 +25,12 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         if ($this->categoryService->createCategory($request)) {
-            $notification = array('messege' => 'Category delete Successful!', 'alert-type' => 'success');
+            $notification = array('messege' => 'Category Save Successful!', 'alert-type' => 'success');
             return redirect()->back()->with($notification);
         } else {
-            $notification = array('messege' => 'Your Password Changed!', 'alert-type' => 'error');
+            $notification = array('messege' => 'Category not Save !', 'alert-type' => 'error');
             return redirect()->back()->with($notification);
 
-        }
-    }
-
-    public function show($id)
-    {
-
-        if ($this->categoryService->deleteCategory($id)) {
-            $notification = array('messege' => 'Category delete Successful!', 'alert-type' => 'success');
-            return redirect()->back()->with($notification);
-        } else {
-            $notification = array('messege' => 'Your Password Changed!', 'alert-type' => 'error');
-            return redirect()->back()->with($notification);
         }
     }
 
@@ -50,7 +38,7 @@ class CategoryController extends Controller
     {
 
         $data = $this->categoryService->getCategorytId($id);
-        return view('admin.category.category.edit', compact('data'));
+        return view('admin.category.category.form', compact('data'));
 
     }
 
@@ -58,10 +46,21 @@ class CategoryController extends Controller
     {
 
         if ($this->categoryService->updateCategory($id, $categoryRequest)) {
+            $notification = array('messege' => 'Category Update Successful!', 'alert-type' => 'success');
+            return redirect()->back()->with($notification);
+        } else {
+            $notification = array('messege' => 'Category not Update !', 'alert-type' => 'error');
+            return redirect()->back()->with($notification);
+        }
+    }
+    public function  destroy($id)
+    {
+
+        if ($this->categoryService->deleteCategory($id)) {
             $notification = array('messege' => 'Category delete Successful!', 'alert-type' => 'success');
             return redirect()->back()->with($notification);
         } else {
-            $notification = array('messege' => 'Your Password Changed!', 'alert-type' => 'error');
+            $notification = array('messege' => 'Category not delete !', 'alert-type' => 'error');
             return redirect()->back()->with($notification);
         }
     }
