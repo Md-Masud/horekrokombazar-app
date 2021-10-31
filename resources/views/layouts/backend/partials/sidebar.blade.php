@@ -5,7 +5,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
         {{--        <img src="{{url($setting->favicon)}}"  class="brand-image img-circle elevation-3" style="opacity: .8">--}}
-        <span class="brand-text font-weight-light">LH Ecommerce</span>
+        <span class="brand-text font-weight-light">Horekrokombazar </span>
     </a>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -57,10 +57,10 @@
                                                         </a>
                         </li>
                         <li class="nav-item">
-                            {{--                            <a href="{{ route('brand.index') }}" class="nav-link">--}}
-                            {{--                                <i class="far fa-circle nav-icon"></i>--}}
-                            {{--                                <p>Brand</p>--}}
-                            {{--                            </a>--}}
+                                                        <a href="{{ route('admin.brand.index') }}" class="nav-link">
+                                                            <i class="far fa-circle nav-icon"></i>
+                                                            <p>Brand</p>
+                                                        </a>
                         </li>
                         <li class="nav-item">
                             {{--                            <a href="{{ route('warehouse.index') }}" class="nav-link">--}}
@@ -145,10 +145,10 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            {{--                            <a href="{{ route('seo.setting') }}" class="nav-link">--}}
-                            {{--                                <i class="far fa-circle nav-icon"></i>--}}
-                            {{--                                <p>SEO Setting</p>--}}
-                            {{--                            </a>--}}
+                                                        <a href="{{ route('admin.seo.edit') }}" class="nav-link">
+                                                            <i class="far fa-circle nav-icon"></i>
+                                                            <p>SEO Setting</p>
+                                                        </a>
                         </li>
                         <li class="nav-item">
                             {{--                            <a href="{{ route('website.setting') }}" class="nav-link">--}}

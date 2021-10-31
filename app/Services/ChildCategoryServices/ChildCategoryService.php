@@ -47,7 +47,7 @@ class ChildCategoryService implements InterfaceChildCategoryService
         // TODO: Implement updateSubCategory() method.
         return $this->interfaceChildCategory->update($id, [
             'category_id' => $request->category_id,
-            'sub_category_id' => $request->sub_category_id,
+            'sub_category_id' => $request->subcategory_id,
             'name' => $request->name,
             'slug' => Str::slug($request->name),
         ]);

@@ -23,6 +23,7 @@ interface InterfaceRepository
 
     public function get();
 
+
     public function save(): bool;
 
     public function all():Collection;

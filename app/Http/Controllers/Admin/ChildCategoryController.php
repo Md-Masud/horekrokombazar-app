@@ -39,7 +39,7 @@ class ChildCategoryController extends Controller
                 })
                 ->addColumn('action', function ($row) {
 
-                    $actionbtn = '<a href="#" class="btn btn-info btn-sm edit" data-id="' . $row->id . '" data-toggle="modal" data-target="#ditModal"><i class="fas fa-edit"></i></a>
+                    $actionbtn = '<a href="#" class="btn btn-info btn-sm edit" data-id="' . $row->id . '" data-toggle="modal" data-target="#childeditModal"><i class="fas fa-edit"></i></a>
 
                       	</a>
                       	<button class="btn btn-danger waves-effect" type="button"
@@ -69,8 +69,8 @@ class ChildCategoryController extends Controller
 
     public function cat()
     {
-        $category_id = request('country');
-        $subcategory = $this->interfaceSubCategoryService->getSubCategoryt($category_id);
+        $category_id = request('category');
+       $subcategory = $this->interfaceSubCategoryService->getSubCategoryt($category_id);
         $option = "<option value=''>Select SubCategory</option>";
         foreach ($subcategory as $sub) {
             $option .= '<option value="' . $sub->id . '">' . $sub->name . '</option>';
@@ -95,10 +95,9 @@ class ChildCategoryController extends Controller
     public function edit($id)
     {
 
-
         $data = $this->interfaceChildCategoryService->getChildCategoryId($id);
-       $categories = $this->interfaceCategoryService->getCategoryOfIndex();
-      $subcategories = $this->interfaceSubCategoryService->getSubCategoryOfIndex();
+        $categories = $this->interfaceCategoryService->getCategoryOfIndex();
+        $subcategories =$this->interfaceSubCategoryService->getSubCategoryOfIndex();
 
         return view('admin.category.childcategory.form', compact('categories', 'subcategories', 'data',));
 

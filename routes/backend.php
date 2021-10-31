@@ -13,6 +13,11 @@ Route::group(['middleware'=>['auth', 'is_admin'],'as'=>'admin.','prefix'=>'admin
     //childcategory
     Route::resource('childcategory','ChildCategoryController');
     Route::get('cat',[App\Http\Controllers\Admin\ChildCategoryController::class,'cat']);
+    // brand
+    Route::resource('brand','BrandController');
+    //SEO
+    Route::get('seo/edit','SeoController@edit')->name('seo.edit');
+    Route::post('seo/update/{id}','SeoController@update')->name('seo.update');
 
 });
 

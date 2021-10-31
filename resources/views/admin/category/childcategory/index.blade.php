@@ -1,5 +1,5 @@
 @extends('layouts.backend.app')
-@section('title','Category')
+@section('title','ChildCategory')
 @push('css')
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css">
@@ -66,9 +66,9 @@
       </div>
   </div>
 
-{{-- edit modal --}}
+
   {{-- edit modal --}}
-  <div class="modal fade" id="ditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="childeditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
           <div id="modal">
           </div>
@@ -104,8 +104,8 @@
     });
   });
 
-</script>
 
+</script>
   @push('js')
       <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
       <script src="{{ asset('backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>

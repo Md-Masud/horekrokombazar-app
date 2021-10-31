@@ -67,6 +67,7 @@ class BaseRepository implements InterfaceRepository
         return $this->model->get();
     }
 
+
     /**
      * @return bool
      */
